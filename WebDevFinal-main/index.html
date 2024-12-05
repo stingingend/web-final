@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Album Timer</title>
+        <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href ="css/stylesheet.css">
+
+    </head>
+    <body>
+        <div class = "navbar">
+            <!--Links go here-->
+            <ul>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Link To:</a>
+                    <div class="dropdown-content">
+                        <a href="https://www.youtube.com" target="_blank">Youtube</a>
+                        <a href="https://www.spotify.com" target="_blank">Spotify</a>
+                    </div>
+                </li>
+            </ul>
+            
+                
+        </div>
+        <div class = "header">
+            <h1>Set a time</h1>
+        <!--Timer Class-->
+        <div class="timer">
+            <input type="number" id="hoursInput" placeholder="Hours">
+            <input type="number" id="minutesInput" placeholder="Minutes">
+            <input type="number" id="secondsInput" placeholder="Seconds">
+            <button onclick="startTimer()">Start Timer</button>
+            <div id="countdown"></div>
+        </div>
+        
+        <!--Currently Playing-->
+        <div class = "playing">
+
+        </div>
+        
+        <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
+        <!--Timer Script-->
+        
+        <!-- REMOVE THE VISABLE COUNT DOWN TIMER-->
+        <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyCeBAQORRXd7gA8nZOm2yMV1yKmifL9vp8",
+  authDomain: "albumtimer.firebaseapp.com",
+  projectId: "albumtimer",
+  storageBucket: "albumtimer.firebasestorage.app",
+  messagingSenderId: "173551934977",
+  appId: "1:173551934977:web:4de5d4c4ec256c395bea00",
+  measurementId: "G-MPJD8DQ27X"
+};
+    const firebaseApp = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      const auth = firebaseApp.auth();
+
+            function startTimer() {
+                let hours = parseInt(document.getElementById('hoursInput').value) || 0;
+                let minutes = parseInt(document.getElementById('minutesInput').value) || 0;
+                let seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+                let totalTime = (hours * 3600) + (minutes * 60) + seconds;
+                let countdownElement = document.getElementById('countdown');
+                
+                let interval = setInterval(function() {
+                    if (totalTime <= 0) {
+                        clearInterval(interval);
+                        countdownElement.innerHTML = "Time's up!";
+                    } else {
+                        let hrs = Math.floor(totalTime / 3600);
+                        let mins = Math.floor((totalTime % 3600) / 60);
+                        let secs = totalTime % 60;
+                        countdownElement.innerHTML = `${hrs}h ${mins}m ${secs}s remaining`;
+                        totalTime--;
+                    }
+                }, 1000);
+            }
+            
+           /* function printAlbums() {
+                db.collection("albums").get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        console.log(`${doc.id} => ${doc.data()}`);
+                    });
+                }).catch((error) => {
+                    console.error("Error getting documents: ", error);
+                });
+            }
+                */
+            db.collection("albums").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    let albumData = doc.data();
+                    let albumName = albumData.title; // Assuming 'name' is a field in the album document
+                    let albumLength = albumData.length; // Assuming 'length' is a field in the album document
+                    console.log(`Album: ${albumName}, Length: ${albumLength}`);
+                });
+            }).catch((error) => {
+                console.error("Error getting documents: ", error);
+            });
+        </script>
+
+
+    </body>
+</html>

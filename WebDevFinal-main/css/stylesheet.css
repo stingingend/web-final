@@ -1,0 +1,66 @@
+/*00: Global Variables*/
+:root {
+--navbar-outline: #992dbd;
+}
+
+
+
+/*01: Background*/
+body {
+    background-image: url(../img/musicwave1.png);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
+
+
+
+/*02: Topography*/
+
+
+
+
+/*03: Layout*/
+.header{
+    display: middle;
+    font-size: 30px;
+    text-align: center;
+    height: 100vh;
+    color: white;
+    padding-top: 3%;
+    }
+
+/*Navbar Position*/
+div.navbar
+{
+    position: fixed;
+    border: 3px solid var(--navbar-outline);
+    border-radius: 100% 100% 100% 0% / 100% 0% 100% 0%;
+    width: 600px;
+    color: white;
+    overflow:hidden;
+    margin: auto;
+    display: middle;
+    padding-left: 43%;
+}
+div.navbar ul {
+    list-style-type: none;
+    margin: auto;
+    padding: 6px;
+}
+div.navbar li {
+    display: inline-table;
+    margin-left: 40px;
+    text-align: center;
+}
+div.navbar li a {
+    color: white;
+}
+
+/*Timer Position*/
+div.timer {
+    position: absolute;
+    left: 38%;
+    top: 65%;
+    height: 15vw;
+    width: 25vw; 
+}
